@@ -1,0 +1,40 @@
+{
+    "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+    "name": "plg_system_formeacustom",
+    "version": "1.0.0",
+    "description": "Plugin that implements of additional functionality for the 'Formea Form Builder' component.",
+    "license": "GPL-3.0-or-later",
+    "assets": [
+        {
+            "name": "plg_system_formeacustom.admin.formeacustom",
+            "type": "style",
+            "uri": "plg_system_formeacustom/admin.formeacustom.css",
+            "version": "202412031245"
+        },
+        {
+            "name": "plg_system_formeacustom.admin.formeacustom",
+            "type": "script",
+            "uri": "plg_system_formeacustom/admin.formeacustom.js",
+            "dependencies": [
+                "core"
+            ],
+            "attributes": {
+                "defer": true
+            },
+            "version": "202412031245"
+        },
+        {
+            "name": "plg_system_formeacustom.admin.dialog.invite",
+            "type": "script",
+            "uri": "plg_system_formeacustom/admin.dialog.invite.js",
+            "dependencies": [
+                "core",
+                "joomla.dialog"
+            ],
+            "attributes": {
+                "type": "module"
+            },
+            "version": "202412031245"
+        }
+    ]
+}

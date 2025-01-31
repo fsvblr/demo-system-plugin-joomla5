@@ -1,0 +1,22 @@
+.dialog-invite .joomla-dialog-header {
+    justify-content: flex-start;
+}
+.dialog-invite h3 {
+    font-weight: normal;
+}
+.dialog-invite .header-icon {
+    color: #2a69b8;
+}
+.dialog-invite .j-main-container {
+    overflow-y: auto;
+}
+.dialog-invite .label-hidden {
+    display: inline;
+}
+.dialog-invite .j-main-container > .table {
+    box-shadow: none;
+    border-bottom: 1px solid #dee2e6;
+}
+.formusers-fancy-select {
+    width: 100% !important;
+}

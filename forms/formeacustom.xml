@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+    <fieldset addfieldprefix="Bis\Plugin\System\Formeacustom\Field">
+
+        <field
+            name="formeacustom[users]"
+            type="formusers"
+            label="PLG_SYSTEM_FORMEACUSTOM_FORM_FIELD_USERS_LABEL"
+            description="PLG_SYSTEM_FORMEACUSTOM_FORM_FIELD_USERS_DESC"
+            required="true"
+            multiple="true"
+        />
+
+        <field
+            name="formeacustom[submission_deadline]"
+            type="calendar"
+            label="PLG_SYSTEM_FORMEACUSTOM_FORM_FIELD_SUBMISSION_DEADLINE_LABEL"
+            description="PLG_SYSTEM_FORMEACUSTOM_FORM_FIELD_SUBMISSION_DEADLINE_DESC"
+            class="input-medium"
+            filter="user_utc"
+            format="%Y-%m-%d %H:%M:%S"
+            singleheader="true"
+            showtime="true"
+            timeformat="24"
+            todaybutton="true"
+            weeknumbers="true"
+            filltable="true"
+            minyear="0"
+            maxyear="50"
+        />
+    </fieldset>
+</form>
