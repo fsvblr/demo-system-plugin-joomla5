@@ -47,13 +47,13 @@ if($countChecked && $countChecked == count($users)) {
 						<table class="table" id="usersList">
 							<thead>
 							<tr>
-								<td class="w-1 text-center">
+								<th class="w-1 text-center">
                                     <input class="form-check-input" autocomplete="off" type="checkbox"
-                                           name="checkall-toggle" value=""
-                                           title="<?php echo Text::_('JGLOBAL_CHECK_ALL'); ?>"
-                                           <?php echo $allChecked ? ' checked ' : ''; ?>
-                                           onclick="Joomla.checkAll(this);">
-								</td>
+                                        name="checkall-toggle" value=""
+                                        title="<?php echo Text::_('JGLOBAL_CHECK_ALL'); ?>"
+                                        <?php echo $allChecked ? ' checked ' : ''; ?>
+                                        onclick="Joomla.checkAll(this);">
+								</th>
                                 <th class="d-md-table-cell">
 									<?php echo Text::_('PLG_SYSTEM_FORMEACUSTOM_ADMIN_DIALOG_HEADER_USER_NAME'); ?>
 								</th>
@@ -79,10 +79,10 @@ if($countChecked && $countChecked == count($users)) {
                                             </span>
                                         </label>
                                         <input class="form-check-input" autocomplete="off" type="checkbox"
-                                               id="cb<?php echo $item->id; ?>" name="cid[]" value="<?php echo $item->id; ?>"
-                                               <?php echo (int)$item->invitation_sent ? '' : ' checked '; ?>
-                                               onclick="Joomla.isChecked(this.checked);">
-									</td>
+                                            id="cb<?php echo $item->id; ?>" name="cid[]" value="<?php echo $item->id; ?>"
+                                            <?php echo (int)$item->invitation_sent ? '' : ' checked '; ?>
+                                            onclick="Joomla.isChecked(this.checked);">
+                                    </td>
 									<td class="d-md-table-cell">
 										<?php echo !empty($item->user_name) ? htmlspecialchars($item->user_name, ENT_QUOTES, 'UTF-8') : '-'; ?>
 									</td>

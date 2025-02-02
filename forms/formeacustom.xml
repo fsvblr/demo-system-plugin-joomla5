@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form>
     <fieldset addfieldprefix="Bis\Plugin\System\Formeacustom\Field">
-
         <field
             name="formeacustom[users]"
             type="formusers"
