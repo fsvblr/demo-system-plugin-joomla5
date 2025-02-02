@@ -26,23 +26,23 @@ use Joomla\CMS\Language\Text;
  */
 trait AddAssets
 {
-	/**
-	 * Injects CSS and Javascript
-	 *
-	 * @param   BeforeRenderEvent  $event
-	 *
-	 * @return void
-	 */
+    /**
+     * Injects CSS and Javascript
+     *
+     * @param   BeforeRenderEvent  $event
+     *
+     * @return void
+     */
     public function AddAssets(BeforeRenderEvent $event)
     {
-		$app = $this->getApplication();
+        $app = $this->getApplication();
 
         if (!($app instanceof CMSApplication)) {
             return;
         }
 
         if(!$app->isClient('administrator')
-	        //&& !$app->isClient('site')
+            //&& !$app->isClient('site')
         ) {
             return;
         }
@@ -57,41 +57,41 @@ trait AddAssets
             return;
         }
 
-	    $option = $app->getInput()->get('option');
-	    $view = $app->getInput()->get('view');
-	    $layout = $app->getInput()->get('layout');
-	    $id = $app->getInput()->getInt('id');
+        $option = $app->getInput()->get('option');
+        $view = $app->getInput()->get('view');
+        $layout = $app->getInput()->get('layout');
+        $id = $app->getInput()->getInt('id');
 
         /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
         $wa = $document->getWebAssetManager();
         $wa->getRegistry()->addRegistryFile('media/plg_system_formeacustom/joomla.asset.json');
 
-	    if($app->isClient('administrator')) {
-		    if (!$wa->isAssetActive('style', 'plg_system_formeacustom.admin.formeacustom')) {
-			    $wa->useStyle('plg_system_formeacustom.admin.formeacustom');
-		    }
-		    if (!$wa->isAssetActive('script', 'plg_system_formeacustom.admin.formeacustom')) {
-			    $wa->useScript('plg_system_formeacustom.admin.formeacustom');
-		    }
+        if($app->isClient('administrator')) {
+            if (!$wa->isAssetActive('style', 'plg_system_formeacustom.admin.formeacustom')) {
+                $wa->useStyle('plg_system_formeacustom.admin.formeacustom');
+            }
+            if (!$wa->isAssetActive('script', 'plg_system_formeacustom.admin.formeacustom')) {
+                $wa->useScript('plg_system_formeacustom.admin.formeacustom');
+            }
 
-		    if ($option == 'com_formea' && $view == 'formea' && $layout == 'edit' && !empty($id)) {
-			    $document->addScriptOptions(
-				    'plg_system_formeacustom.dialog.invite.popupContent',
-				    array('value' => $this->renderInviteForm($id))
-			    );
+            if ($option == 'com_formea' && $view == 'formea' && $layout == 'edit' && !empty($id)) {
+                $document->addScriptOptions(
+                    'plg_system_formeacustom.dialog.invite.popupContent',
+                    array('value' => $this->renderInviteForm($id))
+                );
 
-			    Text::script('PLG_SYSTEM_FORMEACUSTOM_ADMIN_DIALOG_HEADER_TEXT');
-			    Text::script('PLG_SYSTEM_FORMEACUSTOM_ADMIN_DIALOG_BTN_INVITE');
-			    Text::script('PLG_SYSTEM_FORMEACUSTOM_ADMIN_DIALOG_BTN_CLOSE');
-			    Text::script('PLG_SYSTEM_FORMEACUSTOM_ADMIN_DIALOG_WARNING_SELECT_USER');
-			    Text::script('PLG_SYSTEM_FORMEACUSTOM_ADMIN_DIALOG_TYPE_MESSAGE_WARNING');
+                Text::script('PLG_SYSTEM_FORMEACUSTOM_ADMIN_DIALOG_HEADER_TEXT');
+                Text::script('PLG_SYSTEM_FORMEACUSTOM_ADMIN_DIALOG_BTN_INVITE');
+                Text::script('PLG_SYSTEM_FORMEACUSTOM_ADMIN_DIALOG_BTN_CLOSE');
+                Text::script('PLG_SYSTEM_FORMEACUSTOM_ADMIN_DIALOG_WARNING_SELECT_USER');
+                Text::script('PLG_SYSTEM_FORMEACUSTOM_ADMIN_DIALOG_TYPE_MESSAGE_WARNING');
 
-			    if (!$wa->isAssetActive('script', 'plg_system_formeacustom.admin.dialog.invite')) {
-				    $wa->useScript('plg_system_formeacustom.admin.dialog.invite');
-			    }
-		    }
-	    }
+                if (!$wa->isAssetActive('script', 'plg_system_formeacustom.admin.dialog.invite')) {
+                    $wa->useScript('plg_system_formeacustom.admin.dialog.invite');
+                }
+            }
+        }
 
-	    $event->setArgument('result', true);
+        $event->setArgument('result', true);
     }
 }
