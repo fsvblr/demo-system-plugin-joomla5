@@ -26,61 +26,61 @@ use Joomla\Database\ParameterType;
  */
 trait DeleteFormDataFromFormeaForm
 {
-	/**
-	 * Removing additional fields from the "Formea" form when deleting it.
-	 *
-	 * @param   AfterDeleteEvent $event
-	 *
-	 * @return bool
-	 */
+    /**
+     * Removing additional fields from the "Formea" form when deleting it.
+     *
+     * @param   AfterDeleteEvent $event
+     *
+     * @return bool
+     */
     public function DeleteFormDataFromFormeaForm($event)
     {
-	    $app = $this->getApplication();
+        $app = $this->getApplication();
 
-	    if (!($app instanceof CMSApplication)) {
-		    return false;
-	    }
+        if (!($app instanceof CMSApplication)) {
+            return false;
+        }
 
-	    if(!$app->isClient('administrator')) {
-		    return false;
-	    }
+        if(!$app->isClient('administrator')) {
+            return false;
+        }
 
-	    // Extract arguments
-	    /** @var TableInterface $table */
-	    $table  = $event['subject'];
-	    $pk = $event['pk'];
+        // Extract arguments
+        /** @var TableInterface $table */
+        $table  = $event['subject'];
+        $pk = $event['pk'];
 
-	    if (!$pk || !is_object($table)) {
-		    return false;
-	    }
+        if (!$pk || !is_object($table)) {
+            return false;
+        }
 
-	    if ($table instanceof FormeaTable) {
-		    $typeAlias = $table->getTypeAlias();
+        if ($table instanceof FormeaTable) {
+            $typeAlias = $table->getTypeAlias();
 
-		    if($typeAlias != 'com_formea.forms') {
-			    return false;
-		    }
-	    } else {
-		    return true;
-	    }
+            if($typeAlias != 'com_formea.forms') {
+                return false;
+            }
+        } else {
+            return true;
+        }
 
         if(empty($pk)) {
             return false;
         }
 
-	    $db = $this->getDatabase();
-	    $query = $db->getQuery(true)
-		    ->delete($db->qn('#__formeacustom_forms'))
-			->where($db->qn('form_id') . ' = :formId')
-			->bind(':formId', $pk, ParameterType::INTEGER);
-	    $db->setQuery($query);
+        $db = $this->getDatabase();
+        $query = $db->getQuery(true)
+            ->delete($db->qn('#__formeacustom_forms'))
+            ->where($db->qn('form_id') . ' = :formId')
+            ->bind(':formId', $pk, ParameterType::INTEGER);
+        $db->setQuery($query);
 
-	    try {
-		    $db->execute();
-	    } catch (\RuntimeException $e) {
-		    $app->enqueueMessage($e->getMessage(), 'error');
-	    }
+        try {
+            $db->execute();
+        } catch (\RuntimeException $e) {
+            $app->enqueueMessage($e->getMessage(), 'error');
+        }
 
-	    return true;
+        return true;
     }
 }

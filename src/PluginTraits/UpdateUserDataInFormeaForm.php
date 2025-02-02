@@ -28,71 +28,71 @@ use Joomla\Database\ParameterType;
  */
 trait UpdateUserDataInFormeaForm
 {
-	/**
-	 * Checking and updating user data
-	 *  in the form's data after user registration.
-	 *
-	 * @param   User\AfterSaveEvent  $event
-	 *
-	 * @return bool
-	 */
+    /**
+     * Checking and updating user data
+     *  in the form's data after user registration.
+     *
+     * @param   User\AfterSaveEvent  $event
+     *
+     * @return bool
+     */
     public function UpdateUserDataInFormeaForm(User\AfterSaveEvent $event)
     {
-	    $app = $this->getApplication();
+        $app = $this->getApplication();
 
-	    if (!($app instanceof CMSApplication)) {
-		    return false;
-	    }
+        if (!($app instanceof CMSApplication)) {
+            return false;
+        }
 
-	    if(!$app->isClient('site')) {
-		    return false;
-	    }
+        if(!$app->isClient('site')) {
+            return false;
+        }
 
-	    $user = $event->getUser();
-	    $isnew = $event->getIsNew();
-	    $success = $event->getSavingResult();
+        $user = $event->getUser();
+        $isnew = $event->getIsNew();
+        $success = $event->getSavingResult();
 
         if(!$isnew || !$success || empty($user['id']) || empty($user['email'])) {
             return false;
         }
 
-	    $db = $this->getDatabase();
-	    $query = $db->getQuery(true);
+        $db = $this->getDatabase();
+        $query = $db->getQuery(true);
 
-	    $query->select('*')
-		    ->from($db->qn('#__formeacustom_forms'))
-		    ->where($db->qn('user_id') . '=' . $db->q(0))
-		    ->where($db->qn('user_email') . ' = :userEmail')
-		    ->bind(':userEmail', $user['email'], ParameterType::STRING);
-	    try {
-		    $rows = $db->setQuery($query)->loadObjectList();
-	    } catch (ExecutionFailureException $e) {
-		    $event->setArgument('result', false);
-		    return false;
-	    }
+        $query->select('*')
+            ->from($db->qn('#__formeacustom_forms'))
+            ->where($db->qn('user_id') . '=' . $db->q(0))
+            ->where($db->qn('user_email') . ' = :userEmail')
+            ->bind(':userEmail', $user['email'], ParameterType::STRING);
+        try {
+            $rows = $db->setQuery($query)->loadObjectList();
+        } catch (ExecutionFailureException $e) {
+            $event->setArgument('result', false);
+            return false;
+        }
 
-		if(empty($rows)) {
-			$event->setArgument('result', true);
-			return true;
-		}
+        if(empty($rows)) {
+            $event->setArgument('result', true);
+            return true;
+        }
 
-	    $formTable = new FormeacustomFormTable(
-		    Factory::getContainer()->get('DatabaseDriver'),
-		    $this->getDispatcher()
-	    );
+        $formTable = new FormeacustomFormTable(
+            Factory::getContainer()->get('DatabaseDriver'),
+            $this->getDispatcher()
+        );
 
-		foreach($rows as $row) {
-			$row->user_id = (int)$user['id'];
-			try {
-				$formTable->save($row);
-			} catch (\Exception $e) {
-				$app->enqueueMessage($e->getMessage(), 'error');
-				$event->setArgument('result', false);
-				return false;
-			}
-		}
+        foreach($rows as $row) {
+            $row->user_id = (int)$user['id'];
+            try {
+                $formTable->save($row);
+            } catch (\Exception $e) {
+                $app->enqueueMessage($e->getMessage(), 'error');
+                $event->setArgument('result', false);
+                return false;
+            }
+        }
 
-	    $event->setArgument('result', true);
-	    return true;
+        $event->setArgument('result', true);
+        return true;
     }
 }

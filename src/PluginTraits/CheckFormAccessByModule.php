@@ -27,16 +27,16 @@ use Joomla\Registry\Registry;
  */
 trait CheckFormAccessByModule
 {
-	/**
-	 * Checking access to a form displayed using a module.
-	 *
-	 * @param   RenderModuleEvent  $event
-	 *
-	 * @return void
-	 */
+    /**
+     * Checking access to a form displayed using a module.
+     *
+     * @param   RenderModuleEvent  $event
+     *
+     * @return void
+     */
     public function CheckFormAccessByModule(RenderModuleEvent $event)
     {
-	    $app = $this->getApplication();
+        $app = $this->getApplication();
 
         if (!($app instanceof CMSApplication)) {
             return;
@@ -56,16 +56,16 @@ trait CheckFormAccessByModule
             return;
         }
 
-	    $module = $event->getModule();
+        $module = $event->getModule();
 
-		if($module->module == 'mod_formea_form') {
-			$params = new Registry($module->params);
-			$form_id = $params->get('form_id', 0);
-			if(!$this->CheckFormAccess($form_id)) {
-				$module->content = Text::_('PLG_SYSTEM_FORMEACUSTOM_ERROR_NO_ACCESS_TO_FORM');
-			}
-		}
+        if($module->module == 'mod_formea_form') {
+            $params = new Registry($module->params);
+            $form_id = $params->get('form_id', 0);
+            if(!$this->CheckFormAccess($form_id)) {
+                $module->content = Text::_('PLG_SYSTEM_FORMEACUSTOM_ERROR_NO_ACCESS_TO_FORM');
+            }
+        }
 
-	    $event->setArgument('result', true);
+        $event->setArgument('result', true);
     }
 }

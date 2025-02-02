@@ -25,16 +25,16 @@ use Joomla\CMS\Event\Application\AfterRenderEvent;
  */
 trait AdminAddFieldsToFormeaForm
 {
-	/**
-	 * Add additional fields to the "Formea" form.
-	 *
-	 * @param   AfterRenderEvent  $event
-	 *
-	 * @return void
-	 */
+    /**
+     * Add additional fields to the "Formea" form.
+     *
+     * @param   AfterRenderEvent  $event
+     *
+     * @return void
+     */
     public function AdminAddFieldsToFormeaForm(AfterRenderEvent $event)
     {
-	    $app = $this->getApplication();
+        $app = $this->getApplication();
 
         if (!($app instanceof CMSApplication)) {
             return;
@@ -54,28 +54,28 @@ trait AdminAddFieldsToFormeaForm
             return;
         }
 
-	    $option = $app->getInput()->get('option');
-	    $view = $app->getInput()->get('view');
-	    $layout = $app->getInput()->get('layout');
-	    $valid = false;
-	    if ($option == 'com_formea' && $view == 'formea' && $layout == 'edit' && !empty($this->formeacustomForm)) {
-		    $valid = true;
-	    }
+        $option = $app->getInput()->get('option');
+        $view = $app->getInput()->get('view');
+        $layout = $app->getInput()->get('layout');
+        $valid = false;
+        if ($option == 'com_formea' && $view == 'formea' && $layout == 'edit' && !empty($this->formeacustomForm)) {
+            $valid = true;
+        }
 
-	    if(!$valid) {
-		    return;
-	    }
+        if(!$valid) {
+            return;
+        }
 
-	    $buffer = $app->getBody();
+        $buffer = $app->getBody();
 
-		$buffer = preg_replace('/id="jform_limit_submission"([^>]+)>\s*<\/div>\s*<\/div>/',
-			'id="jform_limit_submission"$1></div></div>'
-			. $this->formeacustomForm['users']
-			. $this->formeacustomForm['submission_deadline'],
-			$buffer);
+        $buffer = preg_replace('/id="jform_limit_submission"([^>]+)>\s*<\/div>\s*<\/div>/',
+            'id="jform_limit_submission"$1></div></div>'
+            . $this->formeacustomForm['users']
+            . $this->formeacustomForm['submission_deadline'],
+            $buffer);
 
-	    $app->setBody($buffer);
+        $app->setBody($buffer);
 
-	    $event->setArgument('result', true);
+        $event->setArgument('result', true);
     }
 }

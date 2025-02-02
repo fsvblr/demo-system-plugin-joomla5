@@ -24,16 +24,16 @@ use Joomla\CMS\Router\Route;
  */
 trait AdminFormeaRedirectSubmissions
 {
-	/**
-	 * Redirect in the admin panel from the list of submissions to the custom list.
-	 *
-	 * @param   AfterRouteEvent  $event
-	 *
-	 * @return void
-	 */
+    /**
+     * Redirect in the admin panel from the list of submissions to the custom list.
+     *
+     * @param   AfterRouteEvent  $event
+     *
+     * @return void
+     */
     public function AdminFormeaRedirectSubmissions(AfterRouteEvent $event)
     {
-	    $app = $this->getApplication();
+        $app = $this->getApplication();
 
         if (!($app instanceof CMSApplication)) {
             return;
@@ -43,16 +43,16 @@ trait AdminFormeaRedirectSubmissions
             return;
         }
 
-	    $input = $app->getInput();
-	    $option = $input->get('option');
-	    $view = $input->get('view');
-	    $task = $input->get('task');
-	    $layout = $input->get('layout');
+        $input = $app->getInput();
+        $option = $input->get('option');
+        $view = $input->get('view');
+        $task = $input->get('task');
+        $layout = $input->get('layout');
 
-	    if($option === 'com_formea' && $view === 'submissions' && empty($task) && empty($layout)) {
-			$app->redirect(Route::_('index.php?option=com_formeacustom&view=submissions', false));
-	    }
+        if($option === 'com_formea' && $view === 'submissions' && empty($task) && empty($layout)) {
+            $app->redirect(Route::_('index.php?option=com_formeacustom&view=submissions', false));
+        }
 
-	    $event->setArgument('result', true);
+        $event->setArgument('result', true);
     }
 }

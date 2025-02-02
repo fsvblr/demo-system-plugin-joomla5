@@ -26,16 +26,16 @@ use Joomla\CMS\Router\Route;
  */
 trait CheckFormAccessByComponent
 {
-	/**
-	 * Checking access to a form displayed using a component.
-	 *
-	 * @param   BeforeRenderEvent  $event
-	 *
-	 * @return void
-	 */
+    /**
+     * Checking access to a form displayed using a component.
+     *
+     * @param   BeforeRenderEvent  $event
+     *
+     * @return void
+     */
     public function CheckFormAccessByComponent(BeforeRenderEvent $event)
     {
-	    $app = $this->getApplication();
+        $app = $this->getApplication();
 
         if (!($app instanceof CMSApplication)) {
             return;
@@ -45,35 +45,35 @@ trait CheckFormAccessByComponent
             return;
         }
 
-	    try {
-		    $document = $app->getDocument();
-	    } catch (\Exception $e) {
-		    $document = null;
-	    }
+        try {
+            $document = $app->getDocument();
+        } catch (\Exception $e) {
+            $document = null;
+        }
 
-	    if (!($document instanceof HtmlDocument)) {
-		    return;
-	    }
+        if (!($document instanceof HtmlDocument)) {
+            return;
+        }
 
-	    $input = $app->getInput();
-	    $option = $input->get('option');
-	    $view = $input->get('view');
-	    $id = $input->getInt('id', 0);
+        $input = $app->getInput();
+        $option = $input->get('option');
+        $view = $input->get('view');
+        $id = $input->getInt('id', 0);
 
-		//admin: form preview
-	    $alias = $input->get('alias');
-		$tmpl = $input->get('tmpl');
-		$layout = $input->get('layout');
+        //admin: form preview
+        $alias = $input->get('alias');
+        $tmpl = $input->get('tmpl');
+        $layout = $input->get('layout');
 
-		if($option == 'com_formea' && $view == 'formea' && $id > 0) {
-			if(!($tmpl == 'component' && $layout == 'modal' && !empty($alias))) { //admin: form preview
-				if(!$this->CheckFormAccess($id)) {
-					$app->enqueueMessage(Text::_('PLG_SYSTEM_FORMEACUSTOM_ERROR_NO_ACCESS_TO_FORM'), 'error');
-					$this->getApplication()->redirect(Route::_('/', false));
-				}
-			}
-		}
+        if($option == 'com_formea' && $view == 'formea' && $id > 0) {
+            if(!($tmpl == 'component' && $layout == 'modal' && !empty($alias))) { //admin: form preview
+                if(!$this->CheckFormAccess($id)) {
+                    $app->enqueueMessage(Text::_('PLG_SYSTEM_FORMEACUSTOM_ERROR_NO_ACCESS_TO_FORM'), 'error');
+                    $this->getApplication()->redirect(Route::_('/', false));
+                }
+            }
+        }
 
-	    $event->setArgument('result', true);
+        $event->setArgument('result', true);
     }
 }

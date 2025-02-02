@@ -13,7 +13,6 @@ namespace Bis\Plugin\System\Formeacustom\PluginTraits;
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
 
-use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Event\Application\BeforeRenderEvent;
@@ -28,16 +27,16 @@ use Joomla\Database\ParameterType;
  */
 trait AdminRenderFieldsToFormeaForm
 {
-	/**
-	 * Render additional fields to the "Formea" form.
-	 *
-	 * @param   BeforeRenderEvent  $event
-	 *
-	 * @return void
-	 */
+    /**
+     * Render additional fields to the "Formea" form.
+     *
+     * @param   BeforeRenderEvent  $event
+     *
+     * @return void
+     */
     public function AdminRenderFieldsToFormeaForm(BeforeRenderEvent $event)
     {
-	    $app = $this->getApplication();
+        $app = $this->getApplication();
 
         if (!($app instanceof CMSApplication)) {
             return;
@@ -49,7 +48,7 @@ trait AdminRenderFieldsToFormeaForm
 
         try {
             $document = $app->getDocument();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $document = null;
         }
 
@@ -57,42 +56,42 @@ trait AdminRenderFieldsToFormeaForm
             return;
         }
 
-	    $option = $app->getInput()->get('option');
-	    $view = $app->getInput()->get('view');
-		$layout = $app->getInput()->get('layout');
-	    $id = $app->getInput()->getInt('id');
-		$valid = false;
+        $option = $app->getInput()->get('option');
+        $view = $app->getInput()->get('view');
+        $layout = $app->getInput()->get('layout');
+        $id = $app->getInput()->getInt('id');
+        $valid = false;
 
-	    if ($option == 'com_formea' && $view == 'formea' && $layout == 'edit') {
-		    $valid = true;
-	    }
+        if ($option == 'com_formea' && $view == 'formea' && $layout == 'edit') {
+            $valid = true;
+        }
 
-		if(!$valid) {
-			return;
-		}
+        if(!$valid) {
+            return;
+        }
 
-	    $db = $this->getDatabase();
-	    $query = $db->getQuery(true);
-	    $query->select($db->qn('submission_deadline'))
-		    ->from($db->qn('#__formeacustom_forms'))
-		    ->where($db->qn('form_id') . ' = :formId')
-		    ->bind(':formId', $id, ParameterType::INTEGER);
-	    try {
-		    $submission_deadline = $db->setQuery($query)->loadResult();
-	    } catch (ExecutionFailureException $e) {
-		    $submission_deadline = '';
-	    }
+        $db = $this->getDatabase();
+        $query = $db->getQuery(true);
+        $query->select($db->qn('submission_deadline'))
+            ->from($db->qn('#__formeacustom_forms'))
+            ->where($db->qn('form_id') . ' = :formId')
+            ->bind(':formId', $id, ParameterType::INTEGER);
+        try {
+            $submission_deadline = $db->setQuery($query)->loadResult();
+        } catch (ExecutionFailureException $e) {
+            $submission_deadline = '';
+        }
 
-		$data = [];
-		$data['formeacustom[submission_deadline]'] = $submission_deadline ?: '';
+        $data = [];
+        $data['formeacustom[submission_deadline]'] = $submission_deadline ?: '';
 
-		$form = new Form('formeacustom');
-	    $form->loadFile(JPATH_SITE . '/plugins/system/formeacustom/forms/formeacustom.xml', false);
-		$form->bind($data);
+        $form = new Form('formeacustom');
+        $form->loadFile(JPATH_SITE . '/plugins/system/formeacustom/forms/formeacustom.xml', false);
+        $form->bind($data);
 
-		$this->formeacustomForm['users'] = $form->renderField('formeacustom[users]');
-	    $this->formeacustomForm['submission_deadline'] = $form->renderField('formeacustom[submission_deadline]');
+        $this->formeacustomForm['users'] = $form->renderField('formeacustom[users]');
+        $this->formeacustomForm['submission_deadline'] = $form->renderField('formeacustom[submission_deadline]');
 
-	    $event->setArgument('result', true);
+        $event->setArgument('result', true);
     }
 }
