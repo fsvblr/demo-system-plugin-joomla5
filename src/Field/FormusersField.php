@@ -167,8 +167,8 @@ class FormusersField extends ListField
         return $return;
     }
 
-	private function getUserButton($fieldId='')
-	{
+    private function getUserButton($fieldId='')
+    {
         $fieldId = htmlspecialchars($fieldId, ENT_QUOTES, 'UTF-8');
         $uri = new Uri('index.php?option=com_users&view=users&layout=modal&tmpl=component&required=0');
         $uri->setVar('field', $fieldId);
@@ -254,5 +254,5 @@ class FormusersField extends ListField
         </script>';
 
         return $html;
-	}
+    }
 }
