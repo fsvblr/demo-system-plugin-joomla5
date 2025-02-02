@@ -49,23 +49,23 @@ final class Formeacustom extends CMSPlugin implements SubscriberInterface
 {
     use DatabaseAwareTrait;
     use AddAssets;
-	use AdminAddButtonSendEmailToFormeaForm;
-	use AdminAddFieldsToFormeaForm;
-	use AdminFormeaRedirectSubmissions;
-	use AdminRenderFieldsToFormeaForm;
-	use CheckFormAccess;
-	use CheckFormAccessByComponent;
-	use CheckFormAccessByModule;
-	use CheckFormAccessByShortCode;
-	use DeleteFormDataFromFormeaForm;
-	use DeleteUserDataFromFormeaForm;
-	use SaveDataFormeaForm;
-	use SavePageSubmission;
-	use SaveSubmission;
-	use SendInvite;
-	use UpdateSubmission;
-	use UpdateUserDataInFormeaForm;
-	use UserToken;
+    use AdminAddButtonSendEmailToFormeaForm;
+    use AdminAddFieldsToFormeaForm;
+    use AdminFormeaRedirectSubmissions;
+    use AdminRenderFieldsToFormeaForm;
+    use CheckFormAccess;
+    use CheckFormAccessByComponent;
+    use CheckFormAccessByModule;
+    use CheckFormAccessByShortCode;
+    use DeleteFormDataFromFormeaForm;
+    use DeleteUserDataFromFormeaForm;
+    use SaveDataFormeaForm;
+    use SavePageSubmission;
+    use SaveSubmission;
+    use SendInvite;
+    use UpdateSubmission;
+    use UpdateUserDataInFormeaForm;
+    use UserToken;
 
     /**
      * Autoload the language files
@@ -104,136 +104,136 @@ final class Formeacustom extends CMSPlugin implements SubscriberInterface
             return [];
         }
 
-	    if (!file_exists(JPATH_ADMINISTRATOR . '/components/com_formea/src/Extension/FormeaComponent.php')) {
-		    return [];
-	    }
+        if (!file_exists(JPATH_ADMINISTRATOR . '/components/com_formea/src/Extension/FormeaComponent.php')) {
+            return [];
+        }
 
         return [
-			'onAfterRender' => 'onAfterRender',
-	        'onAfterRoute' => 'onAfterRoute',
-	        'onBeforeRender' => 'onBeforeRender',
-	        'onRenderModule' => 'onRenderModule',
+            'onAfterRender' => 'onAfterRender',
+            'onAfterRoute' => 'onAfterRoute',
+            'onBeforeRender' => 'onBeforeRender',
+            'onRenderModule' => 'onRenderModule',
             'onTableAfterDelete' => 'onTableAfterDelete',
             'onTableAfterStore' => 'onTableAfterStore',
-	        'onUserAfterDelete' => 'onUserAfterDelete',
-	        'onUserAfterSave' => 'onUserAfterSave',
+            'onUserAfterDelete' => 'onUserAfterDelete',
+            'onUserAfterSave' => 'onUserAfterSave',
         ];
     }
 
-	/**
-	 * onAfterRender event
-	 *
-	 * @param   AfterRenderEvent  $event
-	 *
-	 * @return void
-	 */
-	public function onAfterRender(AfterRenderEvent $event)
-	{
-		$this->AdminAddButtonSendEmailToFormeaForm($event);
-		$this->AdminAddFieldsToFormeaForm($event);
-		$this->CheckFormAccessByShortCode($event);
-		$this->UpdateSubmission($event);
-	}
+    /**
+     * onAfterRender event
+     *
+     * @param   AfterRenderEvent  $event
+     *
+     * @return void
+     */
+    public function onAfterRender(AfterRenderEvent $event)
+    {
+        $this->AdminAddButtonSendEmailToFormeaForm($event);
+        $this->AdminAddFieldsToFormeaForm($event);
+        $this->CheckFormAccessByShortCode($event);
+        $this->UpdateSubmission($event);
+    }
 
-	/**
-	 * onAfterRoute event
-	 *
-	 * @param   AfterRouteEvent  $event
-	 *
-	 * @return void
-	 */
-	public function onAfterRoute(AfterRouteEvent $event)
-	{
-		$this->SaveSubmission($event);
-		$this->SendInviteUserCompleteForm($event);
-		$this->AdminFormeaRedirectSubmissions($event);
-	}
+    /**
+     * onAfterRoute event
+     *
+     * @param   AfterRouteEvent  $event
+     *
+     * @return void
+     */
+    public function onAfterRoute(AfterRouteEvent $event)
+    {
+        $this->SaveSubmission($event);
+        $this->SendInviteUserCompleteForm($event);
+        $this->AdminFormeaRedirectSubmissions($event);
+    }
 
-	/**
-	 * onBeforeRender event
-	 *
-	 * @param   BeforeRenderEvent  $event
-	 *
-	 * @return void
-	 */
-	public function onBeforeRender(BeforeRenderEvent $event)
-	{
-		$this->AddAssets($event);
-		$this->AdminRenderFieldsToFormeaForm($event);
-		$this->SavePageSubmission($event);
-		$this->CheckFormAccessByComponent($event);
-	}
+    /**
+     * onBeforeRender event
+     *
+     * @param   BeforeRenderEvent  $event
+     *
+     * @return void
+     */
+    public function onBeforeRender(BeforeRenderEvent $event)
+    {
+        $this->AddAssets($event);
+        $this->AdminRenderFieldsToFormeaForm($event);
+        $this->SavePageSubmission($event);
+        $this->CheckFormAccessByComponent($event);
+    }
 
-	/**
-	 * onRenderModule event
-	 *
-	 * @param   RenderModuleEvent  $event
-	 *
-	 * @return void
-	 */
-	public function onRenderModule(RenderModuleEvent $event)
-	{
-		$this->CheckFormAccessByModule($event);
-	}
+    /**
+     * onRenderModule event
+     *
+     * @param   RenderModuleEvent  $event
+     *
+     * @return void
+     */
+    public function onRenderModule(RenderModuleEvent $event)
+    {
+        $this->CheckFormAccessByModule($event);
+    }
 
-	/**
-	 * Post-processor for $table->delete($pk)
-	 *
-	 * @param   AfterDeleteEvent  $event  The event to handle
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function onTableAfterDelete(AfterDeleteEvent $event)
-	{
-		$this->DeleteFormDataFromFormeaForm($event);
-	}
+    /**
+     * Post-processor for $table->delete($pk)
+     *
+     * @param   AfterDeleteEvent  $event  The event to handle
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function onTableAfterDelete(AfterDeleteEvent $event)
+    {
+        $this->DeleteFormDataFromFormeaForm($event);
+    }
 
-	/**
-	 * Post-processor for $table->store($updateNulls)
-	 *
-	 * @param   AfterStoreEvent  $event  The event to handle
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	 public function onTableAfterStore(AfterStoreEvent $event)
-	 {
-		 $this->SaveDataFormeaForm($event);
-	 }
+    /**
+     * Post-processor for $table->store($updateNulls)
+     *
+     * @param   AfterStoreEvent  $event  The event to handle
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+     public function onTableAfterStore(AfterStoreEvent $event)
+     {
+         $this->SaveDataFormeaForm($event);
+     }
 
-	/**
-	 * On deleting user data logging method
-	 *
-	 * Method is called after user data is deleted from the database
-	 *
-	 * @param   User\AfterDeleteEvent $event  The event instance.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.9.0
-	 */
-	public function onUserAfterDelete(User\AfterDeleteEvent $event)
-	{
-		$this->DeleteUserDataFromFormeaForm($event);
-	}
+    /**
+     * On deleting user data logging method
+     *
+     * Method is called after user data is deleted from the database
+     *
+     * @param   User\AfterDeleteEvent $event  The event instance.
+     *
+     * @return  void
+     *
+     * @since   3.9.0
+     */
+    public function onUserAfterDelete(User\AfterDeleteEvent $event)
+    {
+        $this->DeleteUserDataFromFormeaForm($event);
+    }
 
-	/**
-	 * On saving user data logging method
-	 *
-	 * Method is called after user data is stored in the database.
-	 * This method logs who created/edited any user's data
-	 *
-	 * @param   User\AfterSaveEvent $event  The event instance.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.9.0
-	 */
-	public function onUserAfterSave(User\AfterSaveEvent $event)
-	{
-		$this->UpdateUserDataInFormeaForm($event);
-	}
+    /**
+     * On saving user data logging method
+     *
+     * Method is called after user data is stored in the database.
+     * This method logs who created/edited any user's data
+     *
+     * @param   User\AfterSaveEvent $event  The event instance.
+     *
+     * @return  void
+     *
+     * @since   3.9.0
+     */
+    public function onUserAfterSave(User\AfterSaveEvent $event)
+    {
+        $this->UpdateUserDataInFormeaForm($event);
+    }
 }
